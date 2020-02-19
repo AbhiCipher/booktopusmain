@@ -135,7 +135,7 @@ export class Navbar1 extends Component {
          * If logged in, then redirect to upload book page
          */
         if (this.state.bookUploadAccess === true) {
-            return <Redirect to='/UplBook'/>
+            return <Redirect to='/UplBook' />
         }
 
         const token = store.getState().auth.token;
@@ -151,10 +151,10 @@ export class Navbar1 extends Component {
                         <NavLink to="#" className="font1" style={{ marginTop: '2.5%', marginRight: '10%' }}>Home</NavLink>
                         <NavLink to="#" className="font1" style={{ marginTop: '2.5%', marginRight: '10%' }}>AboutUs</NavLink>
                         <NavDropdown title={this.state.firstName} className="font1">
-                            <NavDropdown.Item >Upload Book</NavDropdown.Item>
-                            <NavDropdown.Item >Upload Material</NavDropdown.Item>
-                            <NavDropdown.Item >Upload Tools</NavDropdown.Item>
-                            <NavDropdown.Item >Check History</NavDropdown.Item>
+                            <NavDropdown.Item ><NavLink to='/UploadBook'>Upload Book</NavLink></NavDropdown.Item>
+                            <NavDropdown.Item ><NavLink to='/UploadMat'>Upload Material</NavLink></NavDropdown.Item>
+                            <NavDropdown.Item ><NavLink to='/UploadTool'>Upload Tools</NavLink></NavDropdown.Item>
+                            <NavDropdown.Item ><NavLink to='#'>Check History</NavLink></NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item><NavLink to="#" className="font1" onClick={this.handelLogout}>Log Out</NavLink></NavDropdown.Item>
                         </NavDropdown>
@@ -190,25 +190,7 @@ export class Navbar1 extends Component {
 
         return (
             <div>
-                {/* <Navbar className="navbar" expand="lg">
-                    <Container fluid>
-                        <GiOpenBook size="50px" style={{ marginRight: '10px', color: '#535758' }} />
-                        <Navbar.Brand style={{ color: 'white', marginRight: '100px' }}>
-                       <NavLink to="/" style={{ color: '#15181b', fontFamily: 'Oswald', fontWeight: 'bold' }}>BOOKTOPUS</NavLink>
-                        </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Form inline >
-                                <FormControl type="text" className="icon" placeholder="Search" style={{ borderRadius: '53px', marginRight: '10px' }} />
 
-                            </Form>
-                            <Nav className="ml-auto">
-                                {renderAuthButton()}
-                            </Nav>
-
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar> */}
                 <Navbar className="navbar" expand="lg">
                     <GiBookCover size="50px" className="font1" style={{ marginRight: '10px' }} />
                     <Navbar.Brand>

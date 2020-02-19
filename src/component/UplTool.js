@@ -63,7 +63,7 @@ export class UplTool extends Component {
                     <Table style={{ overflow: 'hidden', backgroundColor: '#e0e0e0', margin: 'auto', width: '30%', marginTop: '5%', padding: '0', borderRadius: '53px' }}>
                         <tr>
                             <td>
-                                <Form style={{ maxWidth: '75%', margin: 'auto', marginTop: '15%', marginBottom: '15%', fontFamily: 'verdana', fontSize: '12px' }} >
+                                <Form style={{ maxWidth: '75%', margin: 'auto', marginTop: '15%', marginBottom: '15%', fontFamily: 'Roboto', fontSize: '16px' }} >
                                     <Form.Group>
                                         <Form.Label>Name</Form.Label>
                                         <Form.Control type="text" name="text" id="Name" placeholder="Title" style={{ borderRadius: '53px', }} />

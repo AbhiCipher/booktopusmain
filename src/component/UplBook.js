@@ -1,126 +1,15 @@
-// import React from 'react';
-// import {Form, Button, Table} from 'react-bootstrap';
-// import {Link} from 'react-router-dom';
-
-// export const UplBook = () => {
-//      return (
-//           <div style={{marginBlockEnd: '25px', marginBottom: '50px' }}>
-//                <h1 className="mt-3 ml-4 mb-3">Upload Book!</h1>
-//                <div style={{ overflow: 'hidden', backgroundColor: '#000000', width: '100%' }}>
-//                     <h2 className="mt-3 mb-3 ml-4" style={{ color: '#ffffff' }}>Book Details</h2>
-// <Table style={{ overflow: 'hidden', backgroundColor: '#000000', width: '100%' }}>
-//      <tr>
-//           <td>
-//                <div className="ml-3 mt-3 mb-3 mr-3" style={{ overflow: 'hidden', backgroundColor: '#000000' }}>
-//                     <Form style={{ color: '#ffffff' }}>
-//                          <Form.Group>
-//                               <Form.Label>Title</Form.Label>
-//                               <Form.Control type="text" name="text" id="Name" placeholder="Title" />
-//                          </Form.Group>
-//                          <Form.Group>
-//                               <Form.Label >Description</Form.Label>
-//                               <Form.Control type="textarea" name="text" id="enter description" />
-//                          </Form.Group>
-//                          <Form.Group>
-//                               <Form.Label for="text">Tags</Form.Label>
-//                               <Form.Control type="text" name="text" id="Name" placeholder="Tags" />
-//                          </Form.Group>
-//                          <Form.Group>
-//                               <Form.Label for="text">Author Name</Form.Label>
-//                               <Form.Control type="text" name="text" id="Name" placeholder="Author name" />
-//                          </Form.Group>
-//                          <Form.Group>
-//                               <Form.Label for="text">Category</Form.Label>
-//                               <Form.Control type="text" name="text" id="Name" placeholder="category" />
-//                          </Form.Group>
-//                          <Form.Group controlId="formGridState">
-//                               <Form.Label>Semester</Form.Label>
-//                               <Form.Control as="select" value="Choose...">
-//                                    <option>1</option>
-//                                    <option>2</option>
-//                                    <option>3</option>
-//                                    <option>4</option>
-//                                    <option>5</option>
-//                                    <option>6</option>
-//                                    <option>7</option>
-//                                    <option>8</option>
-//                               </Form.Control>
-//                          </Form.Group>
-//                     </Form>
-//                </div>
-//           </td>
-//           <td>
-//                <div className="ml-3 mt-3 mb-3 mr-3" style={{ overflow: 'hidden', backgroundColor: '#000000' }}>
-//                     <Form style={{ color: '#ffffff' }}>
-//                     <Form.Group controlId="formGridState">
-//                               <Form.Label>Edition</Form.Label>
-//                               <Form.Control as="select" value="Choose...">
-//                                    <option>1</option>
-//                                    <option>2</option>
-//                                    <option>3</option>
-//                                    <option>4</option>
-//                                    <option>5</option>
-//                                    <option>6</option>
-//                                    <option>7</option>
-//                                    <option>8</option>
-//                               </Form.Control>
-//                          </Form.Group>
-//                          <Form.Group>
-//                               <Form.Label for="exampleNumber">Subject Code</Form.Label>
-//                               <Form.Control
-//                                    type="number"
-//                                    name="number"
-//                                    id="exampleNumber"
-//                                    placeholder="subject code"/>
-//                          </Form.Group>
-//                     </Form>
-//                </div>
-//           </td>
-//           <td>
-//                <div className="ml-3 mt-3 mb-3 mr-3" style={{ overflow: 'hidden', backgroundColor: '#000000' }}>
-//                     <Form style={{ color: '#ffffff' }}>
-//                          <Form.Group>
-//                               <Form.Label for="exampleFile">Cover Photo</Form.Label>
-//                               <Form.Control type="file" name="file" id="exampleFile" />
-//                          </Form.Group>
-//                          <Form.Group>
-//                               <Form.Label for="exampleFile">Condition Photos</Form.Label>
-//                               <Form.Control type="file" name="file" id="exampleFile" />
-//                          </Form.Group>
-//                     </Form>
-//                </div>
-//           </td>
-//      </tr>
-// </Table>
-//                </div>
-//                 <div  style={{backgroundColor: '#000000' ,width:'100%', textAlign:'center'}}>
-//                <Form style={{color:'#ffffff'}}>
-//                     <Form.Group check inline>
-//                          <Form.Label check>
-//                               <Form.Control type="checkbox" /> Agree terms and condition
-//                          </Form.Label>
-//                     </Form.Group>
-//                     <Form.Group className="mt-3 mb-3">
-//                          <Link to="/"><Button onClick={() => alert("New Book uploaded successfully!!")}>Upload Book</Button></Link>
-//                     </Form.Group>
-//                     <Form.Group style={{color:'#000000'}}>hj</Form.Group>
-//                </Form>
-//            </div> 
-//           </div>
-//      );
-// }
-
 import React, { Component } from 'react'
-import { Form, Button, Table } from 'react-bootstrap'
+import { Form, Button, Table, Container, Col, Row, Card } from 'react-bootstrap'
+import axios from 'axios';
 //import axios from 'axios';
-
 export class UplBook extends Component {
      state = {
           step: 1,
 
           // step 1
           file: null,
-
+          pictures: [],
+          msg: ''
           // step 2
 
      }
@@ -144,97 +33,147 @@ export class UplBook extends Component {
                file: event.target.files[0],
           })
      }
-     fileUploadHandler = () => {
-          //const fd=new FormData();
-          //fd.append('image',this.state.file,this.state.file.name);
-          // axios.post('',fd);
-          //      .then(res=>{
-          //           console.log(res);
-          //      });
+     imageTraceHandler = async () => {
+
+          /**
+           * Here we convert our image into text
+           */
+          try {
+               await axios('/book/imageTrace', {
+                    file: this.state.file
+               })
+                    .then(res => {
+                         alert('Into the right one');
+                         this.setState({
+                              msg: res.data.msg
+                         })
+                         alert(this.state.msg);
+
+                         // this.setState({
+                         //      step: step + 1
+                         // });
+
+                    })
+                    .catch(err => {
+
+                         this.setState({
+                              msg: err.response.data.msg
+                         })
+                         alert(this.state.msg)
+                    })
+          }
+          catch (error) {
+               this.setState({
+                    msg: error
+               })
+               alert(this.state.msg);
+          }
+
+
           this.nextStep();
      }
      showStep = () => {
           const { step, } = this.state;
           if (step === 1)
                return (
-                    <div style={{ overflow: 'hidden', backgroundColor: '#e0e0e0', margin: 'auto', width: '30%', marginTop: '20%', padding: '0',borderRadius: '53px' }}>
-                         <Form style={{  marginTop: '15%', marginLeft: '15%', marginBottom: '15%',fontFamily:'Verdana'}}>
+                    <div style={{ overflow: 'hidden', backgroundColor: '#e0e0e0', margin: 'auto', width: '30%', marginTop: '20%', padding: '0', borderRadius: '53px' }}>
+
+                         <Form style={{ marginTop: '15%', marginLeft: '15%', marginBottom: '15%', fontFamily: 'Verdana' }}>
                               <Form.Group >
-                                   <Form.Label for="exampleFile" style={{fontSize:'16px'}} >Cover Photo</Form.Label>
-                                   <Form.Control type="file" id="file" name="image" accept="image" onChange={this.fileChange} />
+                                   <Form.Label for="exampleFile" style={{ fontSize: '16px' }} >Cover Photo</Form.Label>
+                                   <Form.Control type="file" id="file" name="images" accept="image" onChange={this.fileChange} style={{ width: '251px' }} />
                               </Form.Group>
                               <Form.Group className="mt-3 mb-3">
-                                   <Button onClick={this.fileUploadHandler}>Next</Button>
+                                   <Button onClick={this.imageTraceHandler}>Next</Button>
                               </Form.Group>
                          </Form>
                     </div>
                );
           if (step === 2)
                return (
-                    <div >
-                         <Table style={{ overflow: 'hidden', backgroundColor: '#e0e0e0', margin: 'auto', width: '30%',marginTop:'5%', padding: '0',borderRadius: '53px' }}>
-                              <tr>
-                                   <td>
-                                        <div >
-                                             <Form style={{maxWidth:'75%',margin:'auto',marginTop:'15%',marginBottom:'15%',fontFamily:'verdana',fontSize:'12px'}} >
-                                                  <Form.Group>
-                                                       <Form.Label>Title</Form.Label>
-                                                       <Form.Control type="text" name="text" id="Name" placeholder="Title" />
-                                                  </Form.Group>
-                                                  <Form.Group>
-                                                       <Form.Label >Description</Form.Label>
-                                                       <Form.Control type="textarea" name="text" id="Description" placeholder="Description"/>
-                                                  </Form.Group>
-                                                  <Form.Group>
-                                                       <Form.Label for="text">Author Name</Form.Label>
-                                                       <Form.Control type="text" name="text" id="Name" placeholder="Author name" />
-                                                  </Form.Group>
-                                                  <Form.Group>
-                                                       <Form.Label for="text">Branch</Form.Label>
-                                                       <Form.Control type="text" name="text" id="Name" placeholder="Branch" />
-                                                  </Form.Group>
-                                                  <Form.Group controlId="formGridState">
-                                                       <Form.Label>Semester</Form.Label>
-                                                       <Form.Control as="select" value="Choose...">
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                            <option>6</option>
-                                                            <option>7</option>
-                                                            <option>8</option>
-                                                       </Form.Control>
-                                                  </Form.Group>
-                                                  <Form.Group controlId="formGridState">
-                                                       <Form.Label>Edition</Form.Label>
-                                                       <Form.Control as="select" value="Choose...">
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                            <option>6</option>
-                                                            <option>7</option>
-                                                            <option>8</option>
-                                                       </Form.Control>
-                                                  </Form.Group>
-                                                  <Form.Group>
-                                                       <Form.Label for="exampleNumber">ISBN Code</Form.Label>
-                                                       <Form.Control
-                                                            type="number"
-                                                            name="number"
-                                                            id="exampleNumber"
-                                                            placeholder="ISBN code" />
-                                                  </Form.Group>
-                                                  <Button onClick={this.prevStep} style={{marginRight:'15px'}}>Back</Button>
-                                                  <Button onClick={() => alert("New Book uploaded successfully!!")}>Upload Book</Button>
-                                             </Form>
-                                        </div>
-                                   </td>
-                              </tr>
-                         </Table>
-                    </div>
+                    <Container>
+                         <Row>
+                              <Col>
+                                   <Card text="white" style={{ overflow: 'hidden', backgroundColor: '#e0e0e0', fontFamily: 'Roboto', margin: 'auto', marginTop: '50%', padding: '0', borderRadius: '53px', width: '70%' }}>
+                                        <Card.Header style={{ color: '#000000' }}>Suggestions</Card.Header>
+                                        <Card.Body>
+                                             <Card.Text>
+                                                  Some quick example text to build on the card title and make up the bulk
+                                                  of the card's content.
+                                             </Card.Text>
+                                        </Card.Body>
+                                   </Card>
+                                   <br />
+
+                              </Col>
+                              <Col>
+                                   <Table style={{ overflow: 'hidden', backgroundColor: '#e0e0e0', margin: 'auto', marginTop: '5%', padding: '0', borderRadius: '53px' }}>
+                                        <tr>
+                                             <td>
+                                                  <Form style={{ maxWidth: '75%', margin: 'auto', marginTop: '15%', marginBottom: '15%', fontFamily: 'Roboto', fontSize: '16px' }} >
+                                                       <Form.Group>
+                                                            <Form.Label>Title</Form.Label>
+                                                            <Form.Control type="text" name="text" id="Name" placeholder="Title" style={{ borderRadius: '53px', }} />
+                                                       </Form.Group>
+                                                       <Form.Group>
+                                                            <Form.Label >Description</Form.Label>
+                                                            <Form.Control type="textarea" name="text" id="Description" placeholder="Description" style={{ borderRadius: '53px', }} />
+                                                       </Form.Group>
+                                                       <Form.Group>
+                                                            <Form.Label for="text">Author Name</Form.Label>
+                                                            <Form.Control type="text" name="text" id="Name" placeholder="Author name" style={{ borderRadius: '53px', }} />
+                                                       </Form.Group>
+                                                       <Form.Group>
+                                                            <Form.Label for="text">Branch</Form.Label>
+                                                            <Form.Control type="text" name="text" id="Name" placeholder="Branch" style={{ borderRadius: '53px', }} />
+                                                       </Form.Group>
+                                                       <Form.Group controlId="formGridState">
+                                                            <Form.Label>Semester</Form.Label>
+                                                            <Form.Control as="select" value="Choose..." style={{ borderRadius: '53px', }}>
+                                                                 <option>1</option>
+                                                                 <option>2</option>
+                                                                 <option>3</option>
+                                                                 <option>4</option>
+                                                                 <option>5</option>
+                                                                 <option>6</option>
+                                                                 <option>7</option>
+                                                                 <option>8</option>
+                                                            </Form.Control>
+                                                       </Form.Group>
+                                                       <Form.Group controlId="formGridState">
+                                                            <Form.Label>Edition</Form.Label>
+                                                            <Form.Control as="select" value="Choose..." style={{ borderRadius: '53px', }}>
+                                                                 <option>1</option>
+                                                                 <option>2</option>
+                                                                 <option>3</option>
+                                                                 <option>4</option>
+                                                                 <option>5</option>
+                                                                 <option>6</option>
+                                                                 <option>7</option>
+                                                                 <option>8</option>
+                                                            </Form.Control>
+                                                       </Form.Group>
+                                                       <Form.Group>
+                                                            <Form.Label for="exampleNumber">ISBN Code</Form.Label>
+                                                            <Form.Control
+                                                                 type="number"
+                                                                 name="number"
+                                                                 id="exampleNumber"
+                                                                 placeholder="ISBN code" style={{ borderRadius: '53px', }} />
+                                                       </Form.Group>
+                                                       <Button onClick={this.prevStep} style={{ marginRight: '15px' }}>Back</Button>
+                                                       {/*
+                                                        Ahiya on submit wali method banavani baki che !! Suta pehla banavi deje 
+                                                       Ho ne !!
+                                                        */}
+                                                       <Button onClick={() => alert("New Book uploaded successfully!!")}>Upload Book</Button>
+                                                  </Form>
+                                             </td>
+                                        </tr>
+                                   </Table>
+                              </Col>
+                         </Row>
+                    </Container>
                );
      }
      render() {
